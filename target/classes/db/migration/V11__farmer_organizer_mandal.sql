@@ -1,0 +1,3 @@
+ALTER TABLE agri_farmers ADD COLUMN IF NOT EXISTS organizer_id UUID;
+ALTER TABLE agri_farmers ADD COLUMN IF NOT EXISTS mandal_id UUID;
+ALTER TABLE agri_farmers ADD COLUMN IF NOT EXISTS mandal_name VARCHAR(200);

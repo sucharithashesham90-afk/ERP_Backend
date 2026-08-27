@@ -1,0 +1,16 @@
+ALTER TABLE agri_crop_data
+    ADD COLUMN IF NOT EXISTS certification_time      NUMERIC(8,2),
+    ADD COLUMN IF NOT EXISTS certification_time_unit VARCHAR(20),
+    ADD COLUMN IF NOT EXISTS processing_time         NUMERIC(8,2),
+    ADD COLUMN IF NOT EXISTS processing_time_unit    VARCHAR(20),
+    ADD COLUMN IF NOT EXISTS lot_size_qty            NUMERIC(10,3),
+    ADD COLUMN IF NOT EXISTS isolation_distance      NUMERIC(8,2),
+    ADD COLUMN IF NOT EXISTS parent_seed_pack_type   VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS parent_seed_pack_size_kgs NUMERIC(6,3),
+    ADD COLUMN IF NOT EXISTS material_state          VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS product_name            VARCHAR(200),
+    ADD COLUMN IF NOT EXISTS material_type           VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS sample_at_intake        BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS sample_at_sales_return  BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS sample_at_third_party   BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN IF NOT EXISTS sample_at_seed_expire   BOOLEAN NOT NULL DEFAULT FALSE;
