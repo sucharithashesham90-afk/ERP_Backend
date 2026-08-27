@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ERP Platform Architecture</title>
+<style>
+@page { size: A4 landscape; margin: 12mm; }
+:root { --ink:#172033; --muted:#526071; --line:#9aa8b8; --teal:#0f766e; --blue:#2563eb; --green:#15803d; --amber:#b45309; --red:#b91c1c; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); font-family: Georgia, 'Times New Roman', serif; background:#f7fafb; }
+.sheet { page-break-after:always; min-height:178mm; padding:8mm 6mm; }
+.sheet:last-child { page-break-after:auto; }
+h1 { font-size:28px; margin:0 0 4px; letter-spacing:.2px; }
+h2 { font-size:18px; margin:0 0 8px; color:#0f766e; }
+p, li { font-size:11px; line-height:1.45; }
+.subtitle { color:var(--muted); font:12px Arial, sans-serif; margin-bottom:18px; }
+.meta { display:flex; gap:8px; margin:12px 0 18px; }
+.meta span { background:#e2e8f0; border-left:4px solid #0f766e; padding:7px 10px; font:10px Arial, sans-serif; }
+.diagram { background:#fff; border:1px solid #d8e0e8; padding:10px; box-shadow:0 3px 12px #102a4312; }
+svg { width:100%; height:auto; display:block; }
+.node { fill:#fff; stroke:#334155; stroke-width:1.4; }
+.node.blue { fill:#eff6ff; stroke:#2563eb; }
+.node.green { fill:#f0fdf4; stroke:#15803d; }
+.node.amber { fill:#fffbeb; stroke:#b45309; }
+.node.red { fill:#fef2f2; stroke:#b91c1c; }
+.node.purple { fill:#faf5ff; stroke:#7e22ce; }
+.node.gray { fill:#f8fafc; stroke:#64748b; }
+.node.teal { fill:#f0fdfa; stroke:#0f766e; }
+.label { font: bold 12px Arial, sans-serif; fill:#172033; }
+.small { font: 10px Arial, sans-serif; fill:#526071; }
+.edge { stroke:#64748b; stroke-width:1.5; fill:none; marker-end:url(#arrow); }
+.edge.dash { stroke-dasharray:5 4; }
+.legend { display:flex; gap:18px; margin-top:8px; font:10px Arial, sans-serif; color:#526071; }
+.dot { display:inline-block; width:10px; height:10px; margin-right:4px; border-radius:2px; vertical-align:-1px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+.panel { background:#fff; border-top:4px solid #0f766e; padding:13px 16px; box-shadow:0 2px 8px #102a4310; }
+.panel h3 { margin:0 0 6px; font: bold 14px Arial, sans-serif; }
+.panel ul { margin:6px 0 0; padding-left:18px; }
+.footer { margin-top:12px; color:#687789; font:9px Arial, sans-serif; }
+</style>
+</head>
+<body>
+<section class="sheet">
+  <h1>ERP Platform Architecture</h1>
+  <div class="subtitle">Code-grounded view of the Spring Boot modular monolith | Generated 26 August 2026</div>
+  <div class="meta"><span>Runtime: Java 21 / Spring Boot 3.3</span><span>Packaging: executable JAR</span><span>Deployment: Docker + Railway</span><span>API: REST on port 8080</span></div>
+  <div class="diagram">
+  <svg viewBox="0 0 1120 650" role="img" aria-label="ERP Platform architecture diagram">
+    <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker></defs>
+    <rect x="235" y="20" width="650" height="600" rx="16" fill="#fbffff" stroke="#0f766e" stroke-width="2"/>
+    <text x="560" y="48" text-anchor="middle" class="label" fill="#0f766e">SPRING BOOT ERP PLATFORM | SINGLE DEPLOYABLE SERVICE</text>
+    <rect x="30" y="70" width="150" height="58" rx="8" class="node blue"/><text x="105" y="95" text-anchor="middle" class="label">Web / API Clients</text><text x="105" y="112" text-anchor="middle" class="small">Browser and integrations</text>
+    <rect x="940" y="65" width="150" height="74" rx="8" class="node amber"/><text x="1015" y="88" text-anchor="middle" class="label">External Providers</text><text x="1015" y="105" text-anchor="middle" class="small">OIDC, AI, weather</text><text x="1015" y="120" text-anchor="middle" class="small">SMTP, Twilio</text>
+    <rect x="270" y="70" width="180" height="75" rx="8" class="node red"/><text x="360" y="94" text-anchor="middle" class="label">Security</text><text x="360" y="111" text-anchor="middle" class="small">JWT filter and tokens</text><text x="360" y="126" text-anchor="middle" class="small">OIDC, roles, tenant context</text>
+    <rect x="490" y="70" width="180" height="75" rx="8" class="node blue"/><text x="580" y="94" text-anchor="middle" class="label">REST API</text><text x="580" y="111" text-anchor="middle" class="small">Controllers and DTOs</text><text x="580" y="126" text-anchor="middle" class="small">Validation and OpenAPI</text>
+    <rect x="710" y="70" width="125" height="75" rx="8" class="node purple"/><text x="772" y="94" text-anchor="middle" class="label">Cross-cutting</text><text x="772" y="111" text-anchor="middle" class="small">Auditing</text><text x="772" y="126" text-anchor="middle" class="small">Errors, mail, SMS</text>
+    <path d="M180 99 H270" class="edge"/><path d="M450 107 H490" class="edge"/><path d="M670 107 H710" class="edge"/>
+    <rect x="270" y="180" width="565" height="220" rx="12" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6 4"/>
+    <text x="552" y="205" text-anchor="middle" class="label">BUSINESS MODULES | PACKAGE-ORGANIZED MODULAR MONOLITH</text>
+    <rect x="290" y="225" width="160" height="65" rx="8" class="node green"/><text x="370" y="247" text-anchor="middle" class="label">Core</text><text x="370" y="264" text-anchor="middle" class="small">master, organization, admin</text><text x="370" y="278" text-anchor="middle" class="small">auth, workflow</text>
+    <rect x="470" y="225" width="160" height="65" rx="8" class="node green"/><text x="550" y="247" text-anchor="middle" class="label">Commercial</text><text x="550" y="264" text-anchor="middle" class="small">sales, purchase, supplier</text><text x="550" y="278" text-anchor="middle" class="small">pricing, promotions, CRM</text>
+    <rect x="650" y="225" width="160" height="65" rx="8" class="node green"/><text x="730" y="247" text-anchor="middle" class="label">Finance &amp; People</text><text x="730" y="264" text-anchor="middle" class="small">accounting, expense, payroll</text><text x="730" y="278" text-anchor="middle" class="small">HR, shareholder</text>
+    <rect x="380" y="315" width="160" height="65" rx="8" class="node green"/><text x="460" y="337" text-anchor="middle" class="label">Agri &amp; Operations</text><text x="460" y="354" text-anchor="middle" class="small">agri, inventory, intake</text><text x="460" y="368" text-anchor="middle" class="small">production, processing, quality</text>
+    <rect x="560" y="315" width="160" height="65" rx="8" class="node green"/><text x="640" y="337" text-anchor="middle" class="label">Insights &amp; Automation</text><text x="640" y="354" text-anchor="middle" class="small">reports, AI, scheduler</text><text x="640" y="368" text-anchor="middle" class="small">field IoT synchronization</text>
+    <path d="M580 145 V225" class="edge"/><path d="M580 145 V210 H370 V225" class="edge"/><path d="M580 145 V210 H730 V225" class="edge"/>
+    <rect x="270" y="440" width="255" height="75" rx="8" class="node teal"/><text x="397" y="464" text-anchor="middle" class="label">Persistence Layer</text><text x="397" y="482" text-anchor="middle" class="small">Spring Data JPA repositories</text><text x="397" y="497" text-anchor="middle" class="small">Hibernate entities and transactions</text>
+    <rect x="580" y="440" width="255" height="75" rx="8" class="node teal"/><text x="707" y="464" text-anchor="middle" class="label">Integration Adapters</text><text x="707" y="482" text-anchor="middle" class="small">RestClient provider implementations</text><text x="707" y="497" text-anchor="middle" class="small">mail, SMS, field data feeds</text>
+    <path d="M460 380 V440" class="edge"/><path d="M640 380 V440" class="edge"/><path d="M707 145 V440" class="edge"/><path d="M707 145 V195 H780 V440" class="edge"/>
+    <rect x="270" y="550" width="255" height="48" rx="8" class="node teal"/><text x="397" y="580" text-anchor="middle" class="label">PostgreSQL production | H2 local/test</text>
+    <rect x="580" y="550" width="255" height="48" rx="8" class="node amber"/><text x="707" y="580" text-anchor="middle" class="label">Flyway database migrations</text>
+    <path d="M397 515 V550" class="edge"/><path d="M525 574 H580" class="edge"/>
+    <path d="M835 107 H940" class="edge"/><text x="887" y="98" text-anchor="middle" class="small">HTTPS / SMTP</text>
+    <rect x="30" y="500" width="150" height="74" rx="8" class="node gray"/><text x="105" y="523" text-anchor="middle" class="label">Docker + Railway</text><text x="105" y="540" text-anchor="middle" class="small">Maven build stage</text><text x="105" y="556" text-anchor="middle" class="small">Temurin runtime stage</text>
+    <path d="M180 537 H235" class="edge dash"/>
+  </svg>
+  <div class="legend"><span><i class="dot" style="background:#dbeafe"></i>API / security</span><span><i class="dot" style="background:#dcfce7"></i>business capability</span><span><i class="dot" style="background:#ffedd5"></i>infrastructure / integration</span><span><i class="dot" style="background:#ede9fe"></i>cross-cutting concern</span></div>
+  </div>
+  <div class="footer">Evidence: ErpPlatformApplication.java, package structure under src/main/java/com/erp/platform, pom.xml, application*.properties, Dockerfile, railway.toml.</div>
+</section>
+<section class="sheet">
+  <h1>Architecture Notes</h1>
+  <div class="subtitle">Interpretation of the code structure and runtime responsibilities</div>
+  <div class="grid">
+    <div class="panel"><h3>Request Path</h3><p>HTTP requests enter Spring MVC controllers, pass through JWT/OIDC security, and are delegated to business services. Services coordinate domain rules and repositories, while DTOs define the API boundary.</p></div>
+    <div class="panel"><h3>Persistence</h3><p>Domain entities and repositories use Spring Data JPA/Hibernate. PostgreSQL is the production store; H2 supports local development and tests. Flyway migrations are enabled for PostgreSQL profiles.</p></div>
+    <div class="panel"><h3>Business Scope</h3><p>The application groups capabilities by ERP domain: master data, organization, commercial flows, finance, HR/payroll, agriculture, manufacturing, processing, inventory, logistics, quality, reports, and workflow.</p></div>
+    <div class="panel"><h3>Security &amp; Tenancy</h3><p>Local authentication issues JWTs. OIDC providers can be verified and exchanged for application sessions. Tenant and user context are shared application concerns used across protected operations.</p></div>
+    <div class="panel"><h3>Scheduled Work</h3><p>In-process schedulers handle business maintenance and optional field-IoT synchronization. This means background execution scales with the application instance, not a separately deployed worker.</p></div>
+    <div class="panel"><h3>External Integrations</h3><p>AI provider adapters support Gemini, Anthropic, and OpenAI-compatible APIs. Other integrations cover SMTP email, Twilio SMS/WhatsApp, and weather/satellite field data.</p></div>
+    <div class="panel"><h3>Deployment Model</h3><p>The Dockerfile uses a Maven build stage and a smaller Temurin runtime stage. Railway activates the railway Spring profile. Environment variables provide deployment-specific credentials and endpoints.</p></div>
+    <div class="panel"><h3>Architectural Trade-off</h3><p>This is a modular monolith rather than a microservice system: one deployment simplifies transactions and operations, while package boundaries provide an initial path for future extraction.</p></div>
+  </div>
+  <h2 style="margin-top:18px">Primary Source Locations</h2>
+  <ul><li><b>Bootstrap:</b> src/main/java/com/erp/platform/ErpPlatformApplication.java</li><li><b>API and domain modules:</b> src/main/java/com/erp/platform/modules/*/{controller,service,repository,entity}</li><li><b>Cross-cutting:</b> src/main/java/com/erp/platform/common, config, security</li><li><b>Runtime configuration:</b> src/main/resources/application*.properties</li><li><b>Schema evolution:</b> src/main/resources/db/migration/</li><li><b>Build and deployment:</b> pom.xml, Dockerfile, railway.toml</li></ul>
+</section>
+</body>
+</html>

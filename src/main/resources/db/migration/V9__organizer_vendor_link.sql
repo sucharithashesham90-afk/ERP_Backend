@@ -1,0 +1,1 @@
+ALTER TABLE organizers ADD COLUMN IF NOT EXISTS vendor_id UUID;

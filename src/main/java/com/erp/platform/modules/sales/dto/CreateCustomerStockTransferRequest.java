@@ -1,0 +1,57 @@
+package com.erp.platform.modules.sales.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+public record CreateCustomerStockTransferRequest(
+        String transferNumber,
+        LocalDate transferDate,
+        String fromCustomer,
+        String toCustomer,
+        String fromAddress1,
+        String fromAddress2,
+        String fromState,
+        String fromDistrict,
+        String fromCity,
+        String fromZip,
+        String fromPhone,
+        String address1,
+        String address2,
+        String state,
+        String district,
+        String city,
+        String zip,
+        String phone,
+        BigDecimal freightTotal,
+        BigDecimal freightPaidAmount,
+        BigDecimal freightToPay,
+        String description,
+        String location,
+        String dispatchLocation,
+        String dealerStockCode,
+        String status,
+        List<Item> items
+) {
+    public record Item(
+            String cropGroup,
+            String crop,
+            String variety,
+            String cropVariety,
+            String productId,
+            String productName,
+            String lotNumber,
+            BigDecimal packs,
+            BigDecimal packsDamaged,
+            BigDecimal fromUnitPrice,
+            BigDecimal fromDiscount,
+            BigDecimal fromStCst,
+            BigDecimal fromCustPrice,
+            BigDecimal toUnitPrice,
+            BigDecimal toDiscount,
+            BigDecimal toStCst,
+            BigDecimal toCustPrice,
+            BigDecimal fromCustomerAmount,
+            BigDecimal toCustomerAmount
+    ) {}
+}

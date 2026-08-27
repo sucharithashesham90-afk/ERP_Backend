@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ERP Platform Request Flow</title>
+<style>
+@page { size: A4 landscape; margin: 12mm; }
+* { box-sizing:border-box; }
+body { margin:0; background:#f4f7f8; color:#172033; font-family:Georgia,'Times New Roman',serif; }
+.sheet { page-break-after:always; min-height:178mm; padding:7mm 6mm; }
+.sheet:last-child { page-break-after:auto; }
+h1 { margin:0 0 5px; font-size:28px; }
+h2 { color:#0f766e; font:700 18px Arial,sans-serif; margin:0 0 11px; }
+.sub { color:#526071; font:12px Arial,sans-serif; margin-bottom:15px; }
+.diagram { background:#fff; border:1px solid #d5dee5; padding:12px; box-shadow:0 3px 12px #102a4312; }
+svg { display:block; width:100%; height:auto; }
+.box { fill:#fff; stroke:#334155; stroke-width:1.5; }
+.blue { fill:#eff6ff; stroke:#2563eb; }
+.red { fill:#fef2f2; stroke:#b91c1c; }
+.green { fill:#f0fdf4; stroke:#15803d; }
+.amber { fill:#fffbeb; stroke:#b45309; }
+.purple { fill:#faf5ff; stroke:#7e22ce; }
+.teal { fill:#f0fdfa; stroke:#0f766e; }
+.title { font:700 12px Arial,sans-serif; fill:#172033; }
+.text { font:10px Arial,sans-serif; fill:#526071; }
+.edge { fill:none; stroke:#64748b; stroke-width:1.6; marker-end:url(#arrow); }
+.edge.ok { stroke:#15803d; }
+.edge.fail { stroke:#b91c1c; }
+.note { fill:#f8fafc; stroke:#94a3b8; stroke-dasharray:5 4; }
+.footer { color:#687789; font:9px Arial,sans-serif; margin-top:10px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.card { background:#fff; border-top:4px solid #0f766e; padding:12px 15px; box-shadow:0 2px 8px #102a4310; }
+.card h3 { margin:0 0 6px; font:700 14px Arial,sans-serif; }
+.card p,.card li { font-size:11px; line-height:1.42; }
+.card ul { margin:5px 0 0; padding-left:18px; }
+code { font-family:Menlo,monospace; font-size:10px; color:#334155; }
+</style>
+</head>
+<body>
+<section class="sheet">
+<h1>ERP Platform Request Flow</h1>
+<div class="sub">Code-grounded flow for authentication and an authenticated customer operation</div>
+<div class="diagram">
+<svg viewBox="0 0 1120 640" role="img" aria-label="ERP Platform request flow diagram">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker></defs>
+<text x="560" y="25" text-anchor="middle" class="title" fill="#0f766e">FLOW A: USER LOGIN AND JWT SESSION</text>
+<rect x="25" y="45" width="150" height="58" rx="8" class="box blue"/><text x="100" y="69" text-anchor="middle" class="title">Client</text><text x="100" y="86" text-anchor="middle" class="text">POST /api/v1/auth/login</text>
+<rect x="215" y="45" width="170" height="58" rx="8" class="box teal"/><text x="300" y="69" text-anchor="middle" class="title">AuthController</text><text x="300" y="86" text-anchor="middle" class="text">validate LoginRequest</text>
+<rect x="425" y="45" width="170" height="58" rx="8" class="box green"/><text x="510" y="69" text-anchor="middle" class="title">AuthService</text><text x="510" y="86" text-anchor="middle" class="text">authenticate credentials</text>
+<rect x="635" y="45" width="170" height="58" rx="8" class="box green"/><text x="720" y="69" text-anchor="middle" class="title">UserDetailsService</text><text x="720" y="86" text-anchor="middle" class="text">load user and roles</text>
+<rect x="845" y="45" width="245" height="58" rx="8" class="box purple"/><text x="967" y="69" text-anchor="middle" class="title">JwtTokenProvider</text><text x="967" y="86" text-anchor="middle" class="text">sign token and return AuthResponse</text>
+<path d="M175 74 H215" class="edge"/><path d="M385 74 H425" class="edge"/><path d="M595 74 H635" class="edge"/><path d="M805 74 H845" class="edge"/>
+<path d="M967 103 V135 H100 V103" class="edge ok"/><text x="560" y="130" text-anchor="middle" class="text">200 OK + JWT token</text>
+<rect x="25" y="155" width="1065" height="35" rx="8" class="note"/><text x="557" y="177" text-anchor="middle" class="text">Login, SSO, health, and OpenAPI routes are permitted without JWT; other API routes require authentication.</text>
+<text x="560" y="235" text-anchor="middle" class="title" fill="#0f766e">FLOW B: AUTHENTICATED CUSTOMER CREATE</text>
+<rect x="25" y="260" width="145" height="70" rx="8" class="box blue"/><text x="97" y="282" text-anchor="middle" class="title">Client</text><text x="97" y="299" text-anchor="middle" class="text">POST /api/v1/</text><text x="97" y="314" text-anchor="middle" class="text">master/customers</text>
+<rect x="205" y="260" width="155" height="70" rx="8" class="box red"/><text x="282" y="282" text-anchor="middle" class="title">SecurityFilterChain</text><text x="282" y="299" text-anchor="middle" class="text">JWT filter</text><text x="282" y="314" text-anchor="middle" class="text">authenticated?</text>
+<rect x="395" y="260" width="155" height="70" rx="8" class="box teal"/><text x="472" y="282" text-anchor="middle" class="title">CustomerController</text><text x="472" y="299" text-anchor="middle" class="text">@Valid request</text><text x="472" y="314" text-anchor="middle" class="text">delegate service</text>
+<rect x="585" y="260" width="170" height="70" rx="8" class="box green"/><text x="670" y="282" text-anchor="middle" class="title">CustomerService</text><text x="670" y="299" text-anchor="middle" class="text">tenant + duplicate check</text><text x="670" y="314" text-anchor="middle" class="text">map and apply rules</text>
+<rect x="790" y="260" width="140" height="70" rx="8" class="box green"/><text x="860" y="282" text-anchor="middle" class="title">Repository</text><text x="860" y="299" text-anchor="middle" class="text">save Customer</text><text x="860" y="314" text-anchor="middle" class="text">JPA transaction</text>
+<rect x="965" y="260" width="125" height="70" rx="8" class="box teal"/><text x="1027" y="282" text-anchor="middle" class="title">Database</text><text x="1027" y="299" text-anchor="middle" class="text">PostgreSQL</text><text x="1027" y="314" text-anchor="middle" class="text">or H2</text>
+<path d="M170 295 H205" class="edge"/><path d="M360 295 H395" class="edge"/><path d="M550 295 H585" class="edge"/><path d="M755 295 H790" class="edge"/><path d="M930 295 H965" class="edge"/>
+<rect x="455" y="370" width="210" height="62" rx="8" class="box amber"/><text x="560" y="393" text-anchor="middle" class="title">PartyLedgerService</text><text x="560" y="410" text-anchor="middle" class="text">ensure customer ledger</text><text x="560" y="423" text-anchor="middle" class="text">after save</text>
+<path d="M860 330 V400 H665" class="edge"/>
+<path d="M560 432 V475 H472 V330" class="edge ok"/><text x="510" y="468" text-anchor="middle" class="text">CustomerDto</text>
+<path d="M205 330 V390 H175" class="edge fail"/><rect x="25" y="370" width="150" height="45" rx="8" class="box red"/><text x="100" y="389" text-anchor="middle" class="title">401 Unauthorized</text><text x="100" y="404" text-anchor="middle" class="text">JSON error response</text>
+<rect x="25" y="500" width="1065" height="80" rx="8" class="note"/><text x="40" y="523" class="text">Cross-cutting behavior:</text><text x="40" y="541" class="text">TenantContext supplies the current tenant. CustomerService uses CustomerMapper, checks duplicate email, assigns a code when absent,</text><text x="40" y="558" class="text">saves through CustomerRepository, ensures a PartyLedger entry, and returns the mapped DTO inside ApiResponse.</text>
+</svg>
+</div>
+<div class="footer">Source evidence: SecurityConfig.java, JwtAuthFilter.java, AuthController.java, CustomerController.java, CustomerService.java, CustomerRepository.java, application*.properties.</div>
+</section>
+<section class="sheet">
+<h1>Flow Notes</h1><div class="sub">Decision points and source mapping</div>
+<div class="grid">
+<div class="card"><h3>1. Authentication Entry</h3><p>Public login is mapped by <code>AuthController.login()</code>. The request is validated, client IP is resolved, and <code>AuthService.login()</code> authenticates the user before <code>JwtTokenProvider</code> signs the session token.</p></div>
+<div class="card"><h3>2. Request Protection</h3><p><code>SecurityConfig</code> configures stateless sessions and inserts <code>JwtAuthFilter</code> before the username/password filter. Any non-public route must be authenticated.</p></div>
+<div class="card"><h3>3. API Boundary</h3><p><code>CustomerController</code> owns the HTTP contract, pagination parameters, validation, status codes, and response wrapping. It does not implement persistence or business rules.</p></div>
+<div class="card"><h3>4. Tenant-Aware Business Logic</h3><p><code>CustomerService</code> reads the current tenant, rejects duplicate active email addresses, maps DTOs to entities, assigns a generated customer code, and coordinates ledger creation.</p></div>
+<div class="card"><h3>5. Persistence</h3><p><code>CustomerRepository</code> extends Spring Data JPA. The service runs in a transaction, and Hibernate persists the entity into PostgreSQL in production or H2 in local/test profiles.</p></div>
+<div class="card"><h3>6. Failure Paths</h3><ul><li>Missing or invalid token: JSON 401 response.</li><li>Validation failure: Spring validation error handling.</li><li>Duplicate email: conflict exception.</li><li>Missing customer: not-found exception.</li></ul></div>
+<div class="card"><h3>Representative Modules</h3><p>The same controller-service-repository pattern is repeated across accounting, sales, purchase, inventory, agri, production, HR, payroll, reports, and other business packages.</p></div>
+<div class="card"><h3>Background Flow</h3><p>Scheduled jobs bypass an HTTP client and invoke application services in-process. Field synchronization optionally calls Open-Meteo or configured satellite providers and persists field data.</p></div>
+</div>
+<h2 style="margin-top:18px">Primary Source Locations</h2>
+<ul><li><b>Bootstrap:</b> src/main/java/com/erp/platform/ErpPlatformApplication.java</li><li><b>Security:</b> src/main/java/com/erp/platform/security/</li><li><b>Authentication:</b> src/main/java/com/erp/platform/modules/auth/</li><li><b>Customer flow:</b> src/main/java/com/erp/platform/modules/master/{controller,service,repository}/</li><li><b>Database:</b> src/main/resources/db/migration/ and application*.properties</li></ul>
+</section>
+</body>
+</html>
